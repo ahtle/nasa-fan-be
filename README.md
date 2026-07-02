@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# nasa-fan-be
 
-## Getting Started
+Nest.js + TypeScript API for NASA Fan. Deployed on **Render**; connects to **Docker Postgres** locally and **Render PostgreSQL** in production.
 
-First, run the development server:
+## Prerequisites
+
+- Node.js 20+
+- Docker (for local Postgres)
+
+## Quick start
 
 ```bash
+cp .env.example .env
+npm install
+docker compose up -d
+npm run db:migrate
+npm run db:seed   # optional
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Health: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+- Missions: [http://localhost:3000/api/missions](http://localhost:3000/api/missions)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server with hot reload |
+| `npm run build` | Production build |
+| `npm run start:prod` | Run production build |
+| `npm run db:up` | Start local Postgres (Docker) |
+| `npm run db:down` | Stop local Postgres |
+| `npm run db:migrate` | Run migrations (dev) |
+| `npm run db:migrate:deploy` | Run migrations (production) |
+| `npm run db:seed` | Seed sample missions |
 
-## Learn More
+## Environment
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Local | Production (Render) |
+|----------|-------|---------------------|
+| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5433/nasa_fan` | Set automatically from Render Postgres |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See [docs/render-setup.md](./docs/render-setup.md).
 
-## Deploy on Vercel
+## Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Nest.js** — API framework (`src/`)
+- **Prisma** — ORM and migrations (`prisma/`)
+- **Docker Compose** — local Postgres on port 5433
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/health` | GET | Database connectivity check |
+| `/api/missions` | GET | List all missions (newest first) |
