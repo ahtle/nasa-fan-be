@@ -1,0 +1,12 @@
+---
+description: NASA Fan workspace context — backend repo and sister frontend
+alwaysApply: true
+---
+
+# Project context
+
+This repo (`nasa-fan-be`) is the **backend** for NASA Fan.
+
+The **frontend** is the sister project **nasa-fan** at `../nasa-fan` (Next.js on port 3000). This API runs on port 3001 locally.
+
+When working on APIs, auth, or data models here, keep the frontend's needs in mind. Refer to `../nasa-fan` for how the UI consumes data.

@@ -35,6 +35,11 @@ npm run db:seed   # optional
 ```bash
 curl https://nasa-fan-api.onrender.com/api/health
 curl https://nasa-fan-api.onrender.com/api/missions
+
+# Auth (after seed)
+curl -s -X POST https://nasa-fan-api.onrender.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"demo@nasa-fan.test","password":"password123"}'
 ```
 
 Replace the hostname with your actual Render service URL.
@@ -44,6 +49,8 @@ Replace the hostname with your actual Render service URL.
 | Variable | Set by | Purpose |
 |----------|--------|---------|
 | `DATABASE_URL` | Render (from database) | PostgreSQL connection |
+| `JWT_SECRET` | `render.yaml` (`generateValue: true`) | Signs JWT access tokens |
+| `JWT_EXPIRES_IN` | `render.yaml` | Token lifetime (default `7d`) |
 | `NODE_ENV` | `render.yaml` | `production` |
 | `PORT` | Render (automatic) | HTTP port for the web service |
 
