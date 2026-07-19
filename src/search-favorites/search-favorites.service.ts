@@ -27,6 +27,16 @@ export class SearchFavoritesService {
     return { favorites: favorites.map(toSearchFavoriteResponse) };
   }
 
+  async findNasaIds(userId: number) {
+    const favorites = await this.prisma.searchFavorite.findMany({
+      where: { userId },
+      select: { nasaId: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return { nasaIds: favorites.map((favorite) => favorite.nasaId) };
+  }
+
   async create(userId: number, dto: CreateSearchFavoriteDto) {
     const favorite = await this.prisma.searchFavorite.upsert({
       where: {

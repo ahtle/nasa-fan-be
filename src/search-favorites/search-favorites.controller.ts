@@ -25,6 +25,11 @@ export class SearchFavoritesController {
     return this.searchFavoritesService.findAll(req.user.id);
   }
 
+  @Get("ids")
+  findNasaIds(@Request() req: { user: User }) {
+    return this.searchFavoritesService.findNasaIds(req.user.id);
+  }
+
   @Post()
   create(
     @Request() req: { user: User },
